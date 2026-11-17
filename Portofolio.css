@@ -1,0 +1,234 @@
+:root { --red:#e60012; --black:#0a0a0a; --white:#fff; }
+* { box-sizing:border-box; margin:0; }
+
+html, body { height:100%; overflow:hidden; }
+body { background:var(--black); color:var(--white);
+       font-family:'Anton','Bebas Neue',Impact,sans-serif; }
+
+.screen { position:fixed; inset:0; height:100dvh; display:none; padding:0;
+  background:
+    repeating-linear-gradient(115deg, transparent 0 40px, rgba(0,0,0,.18) 40px 80px),
+    var(--red); }
+.screen.active { display:block; }
+
+/* Layar selain menu butuh jarak tepi */
+.screen:not(#menu) { padding:6vh 6vw; overflow-y:auto; }
+
+/* Menu: penuh setinggi jendela, isinya di tengah */
+nav { position:absolute; left:6vw; top:0; bottom:0;
+      display:flex; flex-direction:column; justify-content:center;
+      gap:5vh; z-index:2; }
+
+.item { font-size:clamp(1.2rem, 6vh, 3.5rem);   /* ikut TINGGI jendela */
+  text-transform:uppercase; letter-spacing:.08em;
+  color:var(--white); background:var(--black); padding:.1em .5em;
+  transform:skewX(-12deg) rotate(-3deg); width:fit-content; cursor:pointer;
+  transition:.15s; }
+.item.selected { background:var(--white); color:var(--black);
+  transform:skewX(-12deg) rotate(-3deg) scale(1.05); }
+.item.selected::after { content:"◀"; color:var(--red); margin-left:.4em; }
+
+/* Karakter */
+.hero-art { position:absolute; right:0; bottom:0;
+  height:92vh; width:auto; max-width:55vw; object-fit:contain; object-position: right bottom;
+  pointer-events:none; z-index:0;  }
+
+  @media (max-width: 800px){
+    .hero-art {
+      height: 60vh;
+      max-width: 70vw;
+    }
+  }
+
+/* Judul ransom note */
+.ransom span { display:inline-block; padding:0 .1em; margin:0 .02em;
+  font-size:clamp(2rem, 8vh, 4rem); }
+.ransom span:nth-child(odd)  { background:var(--white); color:var(--black); transform:rotate(-6deg); }
+.ransom span:nth-child(even) { background:var(--black); color:var(--white); transform:rotate(5deg) translateY(4px); }
+
+/* Kartu proyek */
+.cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; margin-top:3rem; }
+.card { background:var(--black); border-left:6px solid var(--white); padding:1rem;
+        transform:skewX(-6deg); transition:.2s; }
+.card:hover { background:var(--white); color:var(--black); transform:skewX(-6deg) translateY(-6px); }
+
+/* Petunjuk tombol */
+.hints { position:fixed; bottom:1.5vh; left:2vw; z-index:3;
+  font-size:clamp(.6rem, 1.8vh, .9rem); letter-spacing:.15em; }
+
+/* Transisi wipe diagonal */
+.wipe { position:fixed; inset:0; background:var(--black); z-index:99; pointer-events:none;
+        clip-path:polygon(0 0,0 0,-30% 100%,-30% 100%); }
+.wipe.go { animation:wipe .5s ease-in-out; }
+@keyframes wipe {
+  0%   { clip-path:polygon(0 0,0 0,-30% 100%,-30% 100%); }
+  50%  { clip-path:polygon(0 0,130% 0,100% 100%,-30% 100%); }
+  100% { clip-path:polygon(130% 0,130% 0,100% 100%,100% 100%); }
+}
+
+.back { position:absolute; top:3vh; right:4vw; background:var(--white); color:var(--black);
+  padding:.2em .8em; font-size:clamp(.7rem,2vh,1rem); letter-spacing:.15em; cursor:pointer;
+  transform:skewX(-12deg); }
+
+.panel { display:block; background:var(--black); color:var(--white); padding:1em 1.4em;
+  margin-top:3vh; max-width:60ch; border-left:6px solid var(--white);
+  transform:skewX(-6deg); font-family:Arial,sans-serif; text-decoration:none; }
+a.panel { font-family:'Anton',Impact,sans-serif; letter-spacing:.1em; width:fit-content; }
+a.panel:hover { background:var(--white); color:var(--black); }
+.links { display:flex; flex-direction:column; gap:1vh; }
+
+.skill-list { margin-top:3vh; display:grid; gap:2vh; max-width:600px; }
+.skill span { background:var(--white); color:var(--black); padding:.1em .6em; letter-spacing:.1em; }
+.bar { height:1.2vh; min-height:8px; background:rgba(255,255,255,.25); margin-top:.5vh; transform:skewX(-20deg); }
+.bar i { display:block; height:100%; background:var(--white); }
+
+/* Label pojok atas */
+.tag { position:absolute; top:2.5vh; z-index:3;
+  font-family:'Special Elite',monospace; font-weight:bold;
+  font-size:clamp(.55rem,1.7vh,.85rem); letter-spacing:.15em;
+  padding:.3em .9em; transform:skewX(-12deg); }
+.tag-left  { left:2vw;  background:var(--black); color:var(--white); }
+.tag-right { right:2vw; background:var(--white); color:var(--black); }
+
+/* "Take a look at my work" */
+.intro small { display:block; font-family:'Special Elite',monospace;
+  letter-spacing:.20em; font-size:clamp(.7rem,2vh,.85rem); margin-bottom:.5vh; }
+/* ===== Pengembangan ===== */
+.name { font-size:clamp(2rem,9vh,5rem); letter-spacing:.06em; text-shadow:3px 3px 0 var(--black); }
+.intro p { width:fit-content; background:var(--black); padding:.15em .6em; margin-top:.6vh;
+  font:clamp(.65rem,1.9vh,.95rem)/1.4 Arial,sans-serif; transform:skewX(-12deg); }
+.back { position:fixed; z-index:5; }
+.hints { background:var(--black); padding:.2em .8em; }
+
+.card h3 { font-size:1.4rem; letter-spacing:.06em; text-transform:uppercase; }
+.card p { font:.9rem/1.5 Arial,sans-serif; margin-top:.5em; }
+.tags span { display:inline-block; margin:.7em .4em 0 0; padding:.1em .6em;
+  background:var(--white); color:var(--black); font:.7rem 'Special Elite',monospace; }
+.card:hover .tags span { background:var(--black); color:var(--white); }
+
+.skill { font-size:1.1rem; }
+.screen.active .bar i { animation:fill .9s ease-out; }
+@keyframes fill { from { width:0; } }
+.panel p + p { margin-top:.8em; }
+
+@media (max-width:800px) { .hints { display:none; } }
+@media (prefers-reduced-motion:reduce) { .screen.active .bar i { animation:none; } .wipe.go { animation-duration:.01s; } }
+
+/* ===== Jarak responsif (desktop & mobile) ===== */
+:root { --u: 1vh; }
+@supports (height: 1dvh) { :root { --u: 1dvh; } }
+
+/* Menu: ruang aman di bawah label atas dan di atas petunjuk tombol */
+nav { top: calc(var(--u) * 9); bottom: calc(var(--u) * 9); gap: calc(var(--u) * 3); }
+.item { font-size: clamp(1.1rem, calc(var(--u) * 5.5), 3.2rem); line-height: 1.1; }
+.name { font-size: clamp(2rem, calc(var(--u) * 8.5), 4.5rem); line-height: 1; }
+.intro p { font-size: clamp(.7rem, calc(var(--u) * 1.8), .95rem); }
+
+/* Halaman isi: jarak atas cukup supaya tidak menabrak tombol back */
+.screen:not(#menu) { padding: 9vh 6vw 8vh; overflow-x: hidden; }
+.cards { margin-top: 4vh; gap: clamp(1rem, 3vw, 1.5rem); }
+
+@media (max-width: 800px) {
+  nav { left: 5vw; top: calc(var(--u) * 10); justify-content: flex-start; gap: calc(var(--u) * 2.4); }
+  .item { font-size: clamp(1.1rem, calc(var(--u) * 4.6), 2.2rem); }
+  .name { font-size: clamp(1.8rem, calc(var(--u) * 7), 3rem); }
+  .hero-art { height: calc(var(--u) * 50); max-width: 80vw; right: -3vw; }
+  .screen:not(#menu) { padding: 11vh 5vw 6vh; }
+  .ransom span { font-size: clamp(1.6rem, 9vw, 2.6rem); }
+}
+@media (max-height: 520px) { .intro p:nth-of-type(3) { display: none; } }
+
+/* Data diri: beri napas antarbaris */
+.intro small { margin-bottom: calc(var(--u) * 1.2); }
+.name { margin-bottom: calc(var(--u) * 1.4); }
+.intro p { margin-top: calc(var(--u) * 1.1); padding: .25em .7em; }
+
+/* Data diri diperbesar */
+.intro small { font-size: clamp(.8rem, calc(var(--u) * 2.4), 1.15rem); }
+.name { font-size: clamp(2.2rem, calc(var(--u) * 12), 6rem); }
+.intro p { font-size: clamp(.85rem, calc(var(--u) * 2.6), 1.5rem); }
+.intro p:nth-of-type(3) { font-size: clamp(.75rem, calc(var(--u) * 1.9), 1rem); }
+@media (max-width: 800px) {
+  .name { font-size: clamp(2.2rem, calc(var(--u) * 9), 3.8rem); }
+  .intro p { font-size: clamp(.8rem, calc(var(--u) * 2.1), 1.05rem); }
+  .intro p:nth-of-type(3) { font-size: clamp(.7rem, calc(var(--u) * 1.8), .9rem); }
+}
+
+/* Contact: tampilkan data di bawah label */
+a.panel small { display: block; margin-top: .3em; font: .8rem/1.3 Arial, sans-serif; letter-spacing: .02em; overflow-wrap: anywhere; }
+
+/* ===== Gaya Persona (terinspirasi video referensi) ===== */
+/* Menu: panel krem miring + bintang hitam-putih di belakang karakter */
+.slash { position:absolute; inset:0; z-index:0; pointer-events:none; background:var(--black);
+  clip-path:polygon(70.6% 0,100% 0,100% 100%,44.6% 100%); }
+.slash::after { content:""; position:absolute; inset:0; background:#f4ecd8;
+  clip-path:polygon(72% 0,100% 0,100% 100%,46% 100%); }
+
+/* Huruf ala ransom note untuk nama dan menu */
+.item, .item.selected { background:none; padding:0; }
+.name { text-shadow:none; }
+.name span, .item span { display:inline-block; padding:0 .12em; margin:0 .03em; }
+.name span:nth-child(odd), .item span:nth-child(odd) { background:var(--white); color:var(--black); transform:rotate(-5deg); }
+.name span:nth-child(even), .item span:nth-child(even) { background:var(--black); color:var(--white); transform:rotate(4deg) translateY(3px); }
+.item.selected span { background:var(--white); color:var(--black); box-shadow:3px 3px 0 var(--black); }
+
+/* Projects: kartu bernomor, 3 pertama hitam, sisanya krem */
+.cards { counter-reset:c; }
+.card::before { counter-increment:c; content:"0" counter(c); display:block; color:var(--red); font:.85rem 'Special Elite',monospace; letter-spacing:.2em; }
+.card:hover { background:var(--white); color:var(--black); }
+
+/* Skills, About, Contact: latar gelap, karakter, kertas krem, baris kontak */
+.side { position:fixed; height:82vh; max-width:42vw; right:1vw; z-index:-1; }
+#about .panel { font-size:1.05rem; line-height:1.7; }
+a.panel { position:relative; padding-right:7.5rem; }
+a.panel::after { content:"OPEN ▶"; position:absolute; right:1em; top:50%; translate:0 -50%; background:var(--red); color:var(--white); font:.7rem 'Special Elite',monospace; letter-spacing:.15em; padding:.2em .6em; }
+a.panel:hover, a.panel:focus-visible { background:var(--red); color:var(--white); }
+a.panel:hover::after { background:var(--black); }
+
+/* Transisi: pita merah muda menyusul wipe hitam */
+.wipe::after { content:""; position:absolute; inset:0; background:#ff4d5a; clip-path:polygon(0 0,0 0,-30% 100%,-30% 100%); }
+.wipe.go::after { animation:wipe .5s ease-in-out .08s both; }
+
+@media (max-width:800px) { .side { display:none; } }
+
+/* Karakter: garis tepi putih + bayangan hitam ala stiker */
+.hero-art { filter:drop-shadow(3px 0 0 #fff) drop-shadow(-3px 0 0 #fff) drop-shadow(0 3px 0 #fff) drop-shadow(0 -3px 0 #fff) drop-shadow(7px 7px 0 var(--black)); }
+
+/* ===== Disesuaikan dengan ilustrasi baru ===== */
+:root { --blue:#314f9d; }
+.hero-art { filter:none; }
+.item.selected span { box-shadow:3px 3px 0 var(--blue); }
+.screen { background:
+  radial-gradient(rgba(0,0,0,.16) 1.3px, transparent 1.8px) 0 0/9px 9px,
+  repeating-linear-gradient(115deg, transparent 0 40px, rgba(0,0,0,.18) 40px 80px),
+  var(--red); }
+
+/* Tepi bawah gambar disembunyikan: gambar digeser turun sampai terpotong layar */
+.hero-art { height:calc(var(--u) * 100); bottom:calc(var(--u) * -11); }
+.hero-art.side { height:calc(var(--u) * 90); bottom:calc(var(--u) * -10); }
+@media (max-width:800px) { .hero-art { height:calc(var(--u) * 56); bottom:calc(var(--u) * -6); } }
+
+/* Titik pada nama: kotaknya dibuat kecil menyesuaikan titiknya */
+.name span.dot { width:.3em; height:.3em; padding:0; margin:0 .07em; vertical-align:baseline;
+  background:linear-gradient(var(--white), var(--white)) center/.14em .14em no-repeat, var(--black);
+  transform:rotate(6deg); }
+
+/* ===== Skills & Contact: tampil sebagai kartu seperti Projects ===== */
+.skill-list, .links { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1.5rem; max-width:none; margin-top:3rem; counter-reset:c; }
+.skill { background:var(--black); border-left:6px solid var(--white); padding:1rem; transform:skewX(-6deg); transition:.2s; }
+.skill::before, .links .panel::before { counter-increment:c; content:"0" counter(c); display:block; color:var(--red); font:.85rem 'Special Elite',monospace; letter-spacing:.2em; }
+.skill span { display:block; background:none; color:var(--white); padding:0; margin-top:.3em; font-size:1.4rem; letter-spacing:.06em; text-transform:uppercase; }
+.skill .bar { margin-top:.9rem; }
+.skill:hover .bar { background:rgba(0,0,0,.2); }
+.skill:hover .bar i { background:var(--black); }
+.skill:hover { background:var(--white); color:var(--black); transform:skewX(-6deg) translateY(-6px); }
+.skill:hover span { color:var(--black); }
+
+.links .panel { width:auto; max-width:none; margin-top:0; padding:1rem 1.2rem 3.4rem; font-size:1.4rem; text-transform:uppercase; letter-spacing:.06em; }
+.links .panel small { text-transform:none; }
+.links .panel::after { top:auto; bottom:1rem; right:auto; left:1.2rem; translate:none; }
+a.panel:hover, a.panel:focus-visible { background:var(--white); color:var(--black); }
+
+#skills .side, #contact .side { display:none; }
+.screen:not(#menu) { padding-bottom:14vh; }
+.screen { scrollbar-width:thin; scrollbar-color:var(--black) transparent; }
